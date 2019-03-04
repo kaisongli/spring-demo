@@ -12,6 +12,29 @@ public class BeanDefined {
     //和Spring一样，默认是单例
     private String beanScope = "singleton";
 
+    //自定义工厂类
+    private String factoryBean;
+
+    //自定义工厂方法
+    private String factoryMethod;
+
+    public void setFactoryBean(String factoryBean) {
+        this.factoryBean = factoryBean;
+    }
+
+    public void setFactoryMethod(String factoryMethod) {
+        this.factoryMethod = factoryMethod;
+    }
+
+    public String getFactoryBean() {
+
+        return factoryBean;
+    }
+
+    public String getFactoryMethod() {
+        return factoryMethod;
+    }
+
     public void setBeanScope(String beanScope) {
         this.beanScope = beanScope;
     }
