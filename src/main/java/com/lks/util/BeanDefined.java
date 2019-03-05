@@ -1,5 +1,8 @@
 package com.lks.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by likaisong on 2019/3/3.
  */
@@ -17,6 +20,18 @@ public class BeanDefined {
 
     //自定义工厂方法
     private String factoryMethod;
+
+    //存放属性键值对
+    private Map<String, String> propertyMap = new HashMap<>(16);
+
+    public void setPropertyMap(Map<String, String> propertyMap) {
+        this.propertyMap = propertyMap;
+    }
+
+    public Map<String, String> getPropertyMap() {
+
+        return propertyMap;
+    }
 
     public void setFactoryBean(String factoryBean) {
         this.factoryBean = factoryBean;

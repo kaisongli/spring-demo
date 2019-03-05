@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by likaisong on 2019/3/3.
@@ -107,4 +108,29 @@ public class TestMain {
         System.out.println("b =" + b);
         System.out.println("b方法 =" + b.doSomething());
     }
+
+    @Test
+    public void testPropertyMap() throws Exception {
+        //注册bean
+        BeanDefined beanObj = new BeanDefined();
+        beanObj.setBeanId("user");
+        beanObj.setClassPath("com.lks.bean.User");
+
+        //设置propertyMap 类似Spring中依赖注入属性值
+        Map<String, String> propertyMap = beanObj.getPropertyMap();
+        propertyMap.put("name", "萧峰");
+        propertyMap.put("age", "31");
+        propertyMap.put("sex", "男");
+
+        List<BeanDefined> beanDefineds = new ArrayList<>(16);
+        beanDefineds.add(beanObj);
+
+        //声明BeanFactory，类似于Spring中的ApplicationContext
+        BeanFactory factory = new BeanFactory(beanDefineds);
+
+        //实际调用
+        User user = (User) factory.getPropertyBean("user");
+        System.out.println(user.toString());
+    }
+
 }
