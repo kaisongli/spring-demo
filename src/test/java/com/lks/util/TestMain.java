@@ -133,4 +133,20 @@ public class TestMain {
         System.out.println(user.toString());
     }
 
+    @Test
+    public void testAdviceAop() throws Exception {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring_config.xml");
+        com.lks.aop.joincut.BaseService personProxy = (com.lks.aop.joincut.BaseService) context.getBean("personProxy");
+        personProxy.eat();
+        personProxy.wc();
+    }
+
+    @Test
+    public void testAdvisorAop() throws Exception {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring_config.xml");
+        com.lks.aop.joincut.BaseService personProxy = (com.lks.aop.joincut.BaseService) context.getBean("personProxyAdisor");
+        personProxy.eat();
+        personProxy.wc();
+    }
+
 }

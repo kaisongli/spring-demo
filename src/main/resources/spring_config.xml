@@ -8,9 +8,71 @@
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--BeanPostProcessor-->
     <!-- 注册 bean：被监控的实现类 -->
     <bean id="myService" class="com.lks.processor.impl.MyService"></bean>
-
     <!-- 注册代理实现类 -->
     <bean class="com.lks.processor.proxy.MyBeanPostProcessor"></bean>
+
+    <!--advice-->
+    <!-- 注册被监控的实现类 -->
+    <bean id="person" class="com.lks.aop.pointcut.Person"></bean>
+
+    <!-- 注册通知实现类 -->
+    <bean id="before" class="com.lks.aop.advice.MyBeforeAdvice"></bean>
+
+    <!-- 注册代理监控对象生产工厂 -->
+    <bean id="personProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!-- 目标对象，为 person 创建一个代理对象 -->
+        <property name="target" ref="person"/>
+        <property name="interceptorNames">
+            <array>
+                <value>before</value>
+            </array>
+        </property>
+    </bean>
+
+    <!--advisor-->
+    <!-- 注册被监控的实现类 -->
+    <bean id="personAdvisor" class="com.lks.aop.pointcut.Person"></bean>
+
+    <!-- 注册通知实现类 -->
+    <bean id="beforeAdvisor" class="com.lks.aop.advice.MyBeforeAdvice"></bean>
+    <bean id="after" class="com.lks.aop.advice.MyAfterAdvice"></bean>
+
+    <!-- 注册类型过滤器 -->
+    <bean id="classFilter" class="com.lks.aop.filter.MyClassFilter"></bean>
+
+    <!-- 注册方法匹配器 -->
+    <bean id="eatMethodMatcher" class="com.lks.aop.matcher.EatMethodMatcher"></bean>
+    <bean id="wcMethodMatcher" class="com.lks.aop.matcher.WcMethodMatcher"></bean>
+
+    <!-- 注册切入点 -->
+    <bean id="eatPointcut" class="com.lks.aop.pointcut.MyPointCut">
+        <property name="classFilter" ref="classFilter"></property>
+        <property name="methodMatcher" ref="eatMethodMatcher"></property>
+    </bean>
+    <bean id="wcPointcut" class="com.lks.aop.pointcut.MyPointCut">
+        <property name="classFilter" ref="classFilter"></property>
+        <property name="methodMatcher" ref="wcMethodMatcher"></property>
+    </bean>
+    <!-- 注册顾问 -->
+    <bean id="eatAdvisor" class="com.lks.aop.advisor.MyPointCutAdvisor">
+        <property name="advice" ref="beforeAdvisor"></property>
+        <property name="pointcut" ref="eatPointcut"></property>
+    </bean>
+    <bean id="wcAdvisor" class="com.lks.aop.advisor.MyPointCutAdvisor">
+        <property name="advice" ref="after"></property>
+        <property name="pointcut" ref="wcPointcut"></property>
+    </bean>
+
+    <!-- 注册代理对象工厂 -->
+    <!--
+        此时生成的代理对象，只会负责 Person.eat() 方法进行监控，
+        与 Advice 不同，不会对 BaseService 所有的方法进行监控
+     -->
+    <bean id="personProxyAdisor" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="person"></property>
+        <property name="interceptorNames" value="eatAdvisor,wcAdvisor"></property>
+    </bean>
 </beans>
