@@ -15,4 +15,9 @@ public class MyService implements BaseService{
     public String eat() {
         return "eat food";
     }
+
+    @Override
+    public void testProxy() {
+        System.out.println("test proxy .....");
+    }
 }

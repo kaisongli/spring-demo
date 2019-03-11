@@ -1,6 +1,7 @@
 package com.lks.util;
 
 import com.lks.bean.User;
+import com.lks.processor.impl.MyService;
 import com.lks.processor.service.BaseService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -147,6 +148,13 @@ public class TestMain {
         com.lks.aop.joincut.BaseService personProxy = (com.lks.aop.joincut.BaseService) context.getBean("personProxyAdisor");
         personProxy.eat();
         personProxy.wc();
+    }
+
+    @Test
+    public void testProxyCglib() throws Exception {
+        //代理对象
+        BaseService proxy = MyProxy.getMyServiceProxyByCglib(new MyService());
+        proxy.testProxy();
     }
 
 }

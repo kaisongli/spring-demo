@@ -7,4 +7,6 @@ public interface BaseService {
     String doSomething();
 
     String eat();
+
+    void testProxy();
 }
