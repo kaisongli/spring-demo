@@ -1,9 +1,12 @@
 package com.lks.bean;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * Created by likaisong on 2019/3/3.
  */
 public class User {
+    @Autowired
     private String name;
     private String sex;
     private Integer age;

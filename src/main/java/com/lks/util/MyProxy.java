@@ -1,6 +1,5 @@
 package com.lks.util;
 
-import com.lks.processor.impl.MyService;
 import com.lks.processor.service.BaseService;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
@@ -16,9 +15,10 @@ public class MyProxy {
         //创建增强器
         Enhancer enhancer = new Enhancer();
         //设置增强类对象
-        enhancer.setSuperclass(MyService.class);
+        enhancer.setSuperclass(baseService.getClass());
         //设置回调方法
         enhancer.setCallback(new MethodInterceptor() {
+            //methodProxy 代理之后的对象方法引用
             @Override
             public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
                 System.out.println("增强之前。。。。。");
@@ -27,6 +27,7 @@ public class MyProxy {
                 return obj;
             }
         });
+        //获取增强后的代理对象
         BaseService service = (BaseService) enhancer.create();
         return service;
     }
