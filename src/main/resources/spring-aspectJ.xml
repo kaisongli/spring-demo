@@ -23,8 +23,11 @@
             <!-- before：前置通知 -->
             <!-- pointcut:编写切入点表达式 ,去定位需要切入的方法是哪个 -->
             <!-- method：增强类中的方法 -->
-            <aop:pointcut id="queryPointcut" expression="execution(void com..UserServiceImpl.query(..))"></aop:pointcut>
+            <aop:pointcut id="queryPointcut" expression="execution(void *..UserServiceImpl.query(..))"></aop:pointcut>
             <aop:before method="before"
+                        pointcut-ref="queryPointcut"
+            />
+            <aop:around method="around"
                         pointcut-ref="queryPointcut"
             />
             <!-- <aop:after-returning method="log2" -->
